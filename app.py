@@ -3,6 +3,8 @@ from flask_pymongo import PyMongo
 from bson import json_util
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
+from google.oauth2 import id_token
+from google.auth.transport import requests
 import pymongo, os
 
 UPLOAD_FOLDER = ''
@@ -91,8 +93,16 @@ def get_usuario_byEmail(email):
     response = json_util.dumps(usuario)
     return Response(response, mimetype='application/json')
 
-@app.route('/usuarios/login/<email>/<nombre>', methods=['GET'])
-def login(email, nombre):
+@app.route('/usuarios/login/<email>/<nombre>/<token>', methods=['GET'])
+def login(email, nombre, token):
+    try:
+        CLIENT_ID = '475793231677-ki9jf2e8gb75ecr15gttcekmteqfp30k.apps.googleusercontent.com'
+        id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+
+    except ValueError:
+        error_response = jsonify({'Error': 'Error con el token'})
+        return error_response
+
     myquery = { "email": email }
     usuario = mongo.db.usuarios.find_one(myquery)
     if not usuario:
