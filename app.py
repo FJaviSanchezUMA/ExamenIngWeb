@@ -6,12 +6,14 @@ from werkzeug.utils import secure_filename
 from google.oauth2 import id_token
 from google.auth.transport import requests
 import pymongo, os
+from flask_cors import CORS
 
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER']  = UPLOAD_FOLDER
+CORS(app)
 
 
 url_mongo_atlas = "mongodb+srv://admin:123asd@examen.ro6k8.mongodb.net/examen?retryWrites=true&w=majority"
