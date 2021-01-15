@@ -202,7 +202,7 @@ def get_foto_byNombre(nombre):
 def get_foto_byUsuario(email):
     myquery = { "usuario_email": email }
     foto = mongo.db.grafitis.find(myquery)
-    response = json_util.dumps(grafiti)
+    response = json_util.dumps(foto)
     return Response(response, mimetype='application/json')
 
 
