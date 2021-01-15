@@ -125,7 +125,7 @@ def login(email, nombre, token):
 
 @app.route('/fotos', methods=['GET'])
 def get_fotos():
-    fotos = mongo.db.fotos.find()
+    fotos = mongo.db.fotos.find().sort({likes: 1})
     response = json_util.dumps(fotos)
     return Response(response, mimetype='application/json')
 
