@@ -207,7 +207,7 @@ def get_foto_byUsuario(email):
 
 @app.route('/fotos/findByDescripcion/<descripcion>', methods=['GET'])
 def get_foto_byDescripcion(descripcion):
-    myquery = { "descripcion": descripcion }
+    myquery = { "descripcion": { '$regex': ".*" + descripcion + ".*" } }
     foto = mongo.db.fotos.find(myquery)
     response = json_util.dumps(foto)
     return Response(response, mimetype='application/json')
